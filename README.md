@@ -15,7 +15,7 @@
 ## 📸 Captura de Pantalla
 
 ![Captura de Pantalla de Bella Boutique](./public/images/screen-bella-boutique.png)
-*(Nota: Reemplaza `screenshot.png` con una captura de pantalla real de tu aplicación)*
+
 
 ---
 
