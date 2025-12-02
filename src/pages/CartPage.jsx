@@ -2,16 +2,33 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FiTrash2 } from 'react-icons/fi';
+import { useCart } from '../context/CartContext';
 
-const CartPage = ({ cartItems, onRemove, onUpdateQuantity }) => {
-  const subtotal = cartItems.reduce(
+const CartPage = () => {
+  const { cart, removeFromCart, addToCart } = useCart();
+
+  const handleUpdateQuantity = (id, quantity) => {
+    if (quantity < 1) return;
+    const item = cart.find((item) => item.id === id);
+    if (item) {
+      // Si la cantidad es mayor, agregamos; si es menor, eliminamos hasta llegar a la cantidad
+      const diff = quantity - item.quantity;
+      if (diff > 0) {
+        for (let i = 0; i < diff; i++) addToCart(item);
+      } else if (diff < 0) {
+        for (let i = 0; i < Math.abs(diff); i++) removeFromCart(id);
+      }
+    }
+  };
+
+  const subtotal = cart.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
   );
   const shippingCost = subtotal > 50 ? 0 : 10;
   const total = subtotal + shippingCost;
 
-  if (cartItems.length === 0) {
+  if (cart.length === 0) {
     return (
       <div className="text-center py-20">
         <h1 className="text-3xl font-bold mb-4">Tu carrito está vacío</h1>
@@ -31,7 +48,7 @@ const CartPage = ({ cartItems, onRemove, onUpdateQuantity }) => {
       <h1 className="text-3xl font-bold mb-8 uppercase">Carrito de Compras</h1>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-4">
-          {cartItems.map((item) => (
+          {cart.map((item) => (
             <div key={item.id} className="flex items-center bg-white p-4 border rounded-lg shadow-sm">
               <img src={item.image} alt={item.title} className="w-24 h-24 object-contain mr-4" />
               <div className="flex-grow">
@@ -43,14 +60,14 @@ const CartPage = ({ cartItems, onRemove, onUpdateQuantity }) => {
                     type="number"
                     min="1"
                     value={item.quantity}
-                    onChange={(e) => onUpdateQuantity(item.id, parseInt(e.target.value))}
+                    onChange={(e) => handleUpdateQuantity(item.id, parseInt(e.target.value))}
                     className="w-16 text-center border rounded"
                   />
                 </div>
               </div>
               <div className="text-right">
                 <p className="font-bold">${(item.price * item.quantity).toFixed(2)}</p>
-                <button onClick={() => onRemove(item.id)} className="text-red-500 hover:text-red-700 mt-2">
+                <button onClick={() => removeFromCart(item.id)} className="text-red-500 hover:text-red-700 mt-2">
                   <FiTrash2 size={20} />
                 </button>
               </div>

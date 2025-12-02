@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useAuth } from '../context/AuthContext';
 import { NavLink } from 'react-router-dom';
 import { FiSearch, FiHeart } from 'react-icons/fi';
 import { BsCart3 } from 'react-icons/bs';
@@ -89,6 +90,7 @@ const navLinks = [
 
 const Navbar = ({ cartItemCount }) => {
   const [openMenu, setOpenMenu] = useState(null);
+  const { user, logout } = useAuth();
 
   const handleMouseEnter = (title) => {
     setOpenMenu(title);
@@ -123,8 +125,20 @@ const Navbar = ({ cartItemCount }) => {
           <FiSearch className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
         </div>
         <div className="flex items-center gap-4 text-sm">
-          <NavLink to="/login" className="hover:text-gray-500">Regístrate</NavLink>
-          <NavLink to="/login" className="hover:text-gray-500">Iniciar sesión</NavLink>
+          {!user ? (
+            <>
+              <NavLink to="/login" className="hover:text-gray-500">Regístrate</NavLink>
+              <NavLink to="/login" className="hover:text-gray-500">Iniciar sesión</NavLink>
+            </>
+          ) : (
+            <>
+              <span className="font-bold">Hola, {user.username}</span>
+              <NavLink to="/admin/products" className="hover:text-gray-500 font-bold text-blue-600">
+                Admin
+              </NavLink>
+              <button onClick={logout} className="hover:text-gray-500">Cerrar sesión</button>
+            </>
+          )}
           <NavLink to="/wishlist" className="hover:text-gray-500">
             <FiHeart size={24} />
           </NavLink>

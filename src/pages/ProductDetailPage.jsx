@@ -31,12 +31,11 @@ const ProductDetailPage = ({ onAddToCart }) => {
         <h1 className="text-3xl font-bold mb-4">{product.title}</h1>
         <p className="text-gray-600 mb-4">{product.description}</p>
         <p className="text-3xl font-bold mb-4">${product.price}</p>
-        <button 
-          onClick={() => onAddToCart(product)}
-          className="bg-black text-white py-3 px-6 rounded-lg hover:bg-gray-800"
-        >
-          Agregar al Carrito
-        </button>
+          <button 
+            className="bg-black text-white py-3 px-6 rounded-lg hover:bg-gray-800"
+          >
+            Agregar al Carrito
+          </button>
       </div>
     </div>
   );

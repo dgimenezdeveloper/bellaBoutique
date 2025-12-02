@@ -2,8 +2,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
+import { useProducts } from '../context/ProductContext';
 
-const HomePage = ({ products, loading, error, onAddToCart }) => {
+const HomePage = () => {
+  const { products, loading, error } = useProducts();
   
   // Muestra un mensaje de carga o error si es necesario
   if (loading) return <p className="text-center py-10">Cargando los mejores productos...</p>;
@@ -31,7 +33,7 @@ const HomePage = ({ products, loading, error, onAddToCart }) => {
       {/* Parrilla de Productos */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {featuredProducts.map(product => (
-          <ProductCard key={product.id} product={product} onAddToCart={onAddToCart} />
+          <ProductCard key={product.id} product={product} />
         ))}
       </div>
 

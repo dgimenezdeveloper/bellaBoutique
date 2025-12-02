@@ -1,5 +1,6 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
+import { useCart } from '../context/CartContext';
 import SocialBar from '../components/SocialBar';
 
 const Footer = () => (
@@ -8,7 +9,9 @@ const Footer = () => (
     </footer>
 );
 
-const MainLayout = ({ children, cartItemCount }) => {
+const MainLayout = ({ children }) => {
+    const { cart } = useCart();
+    const cartItemCount = cart.reduce((acc, item) => acc + (item.quantity || 1), 0);
     return (
         <div className="flex flex-col min-h-screen font-sans">
             <Navbar cartItemCount={cartItemCount} />
