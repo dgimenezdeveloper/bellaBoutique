@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { NavLink } from 'react-router-dom';
-import { FiSearch, FiHeart } from 'react-icons/fi';
+import { FiHeart } from 'react-icons/fi';
 import { BsCart3 } from 'react-icons/bs';
 import MegaMenu from './MegaMenu';
+import NavbarSearch from './NavbarSearch';
 
 // Estructura de datos para los enlaces de navegación
 const navLinks = [
@@ -116,13 +117,8 @@ const Navbar = ({ cartItemCount }) => {
         <NavLink to="/">
           <img src="/images/bella-boutique.png" alt="Bella Boutique Logo" className="h-20 w-20" />
         </NavLink>
-        <div className="w-1/3 relative hidden md:block">
-          <input
-            type="text"
-            placeholder="Busca tus productos..."
-            className="w-full border border-gray-300 rounded-full py-2 px-4 focus:outline-none focus:ring-2 focus:ring-gray-400"
-          />
-          <FiSearch className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+        <div className="w-1/3 hidden md:block">
+          <NavbarSearch />
         </div>
         <div className="flex items-center gap-4 text-sm">
           {!user ? (
