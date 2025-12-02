@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useProducts } from '../context/ProductContext';
+import { toast } from 'react-toastify';
+import { FiSave, FiImage, FiDollarSign, FiFileText, FiTag } from 'react-icons/fi';
 
 const ProductForm = ({ onSuccess, initialData = null, isEdit = false }) => {
   const { createProduct, updateProduct } = useProducts();
@@ -14,7 +16,6 @@ const ProductForm = ({ onSuccess, initialData = null, isEdit = false }) => {
 
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState({ type: '', text: '' });
 
   // Validar formulario
   const validateForm = () => {
@@ -65,12 +66,11 @@ const ProductForm = ({ onSuccess, initialData = null, isEdit = false }) => {
     e.preventDefault();
     
     if (!validateForm()) {
-      setMessage({ type: 'error', text: 'Por favor, corrige los errores en el formulario' });
+      toast.error('Por favor, corrige los errores en el formulario');
       return;
     }
 
     setLoading(true);
-    setMessage({ type: '', text: '' });
 
     const productData = {
       ...formData,
@@ -87,10 +87,7 @@ const ProductForm = ({ onSuccess, initialData = null, isEdit = false }) => {
     setLoading(false);
 
     if (result.success) {
-      setMessage({ 
-        type: 'success', 
-        text: isEdit ? '¡Producto actualizado exitosamente!' : '¡Producto creado exitosamente!' 
-      });
+      toast.success(isEdit ? '¡Producto actualizado exitosamente!' : '¡Producto creado exitosamente!');
       
       // Resetear formulario si es creación
       if (!isEdit) {
@@ -108,7 +105,7 @@ const ProductForm = ({ onSuccess, initialData = null, isEdit = false }) => {
         setTimeout(() => onSuccess(result.product), 1500);
       }
     } else {
-      setMessage({ type: 'error', text: result.error || 'Error al procesar el producto' });
+      toast.error(result.error || 'Error al procesar el producto');
     }
   };
 
@@ -118,18 +115,10 @@ const ProductForm = ({ onSuccess, initialData = null, isEdit = false }) => {
         {isEdit ? 'Editar Producto' : 'Agregar Nuevo Producto'}
       </h2>
 
-      {/* Mensaje de éxito/error */}
-      {message.text && (
-        <div className={`mb-4 p-3 rounded ${
-          message.type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
-        }`}>
-          {message.text}
-        </div>
-      )}
-
       {/* Nombre del producto */}
       <div className="mb-4">
         <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
+          <FiTag className="inline mr-2" />
           Nombre del Producto *
         </label>
         <input
@@ -138,17 +127,22 @@ const ProductForm = ({ onSuccess, initialData = null, isEdit = false }) => {
           name="title"
           value={formData.title}
           onChange={handleChange}
+          aria-label="Nombre del producto"
+          aria-required="true"
+          aria-invalid={errors.title ? "true" : "false"}
+          aria-describedby={errors.title ? "title-error" : undefined}
           className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 ${
             errors.title ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-black'
           }`}
           placeholder="Ej: Remera estampada"
         />
-        {errors.title && <p className="text-red-500 text-sm mt-1">{errors.title}</p>}
+        {errors.title && <p id="title-error" className="text-red-500 text-sm mt-1" role="alert">{errors.title}</p>}
       </div>
 
       {/* Precio */}
       <div className="mb-4">
         <label htmlFor="price" className="block text-sm font-medium text-gray-700 mb-1">
+          <FiDollarSign className="inline mr-2" />
           Precio *
         </label>
         <input
@@ -159,17 +153,22 @@ const ProductForm = ({ onSuccess, initialData = null, isEdit = false }) => {
           onChange={handleChange}
           step="0.01"
           min="0"
+          aria-label="Precio del producto"
+          aria-required="true"
+          aria-invalid={errors.price ? "true" : "false"}
+          aria-describedby={errors.price ? "price-error" : undefined}
           className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 ${
             errors.price ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-black'
           }`}
           placeholder="0.00"
         />
-        {errors.price && <p className="text-red-500 text-sm mt-1">{errors.price}</p>}
+        {errors.price && <p id="price-error" className="text-red-500 text-sm mt-1" role="alert">{errors.price}</p>}
       </div>
 
       {/* Descripción */}
       <div className="mb-4">
         <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
+          <FiFileText className="inline mr-2" />
           Descripción * (mínimo 10 caracteres)
         </label>
         <textarea
@@ -178,20 +177,25 @@ const ProductForm = ({ onSuccess, initialData = null, isEdit = false }) => {
           value={formData.description}
           onChange={handleChange}
           rows="4"
+          aria-label="Descripción del producto"
+          aria-required="true"
+          aria-invalid={errors.description ? "true" : "false"}
+          aria-describedby={errors.description ? "description-error" : "description-help"}
           className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 ${
             errors.description ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-black'
           }`}
           placeholder="Describe el producto..."
         />
-        <p className="text-sm text-gray-500 mt-1">
+        <p id="description-help" className="text-sm text-gray-500 mt-1">
           {formData.description.length} caracteres
         </p>
-        {errors.description && <p className="text-red-500 text-sm mt-1">{errors.description}</p>}
+        {errors.description && <p id="description-error" className="text-red-500 text-sm mt-1" role="alert">{errors.description}</p>}
       </div>
 
       {/* URL de imagen */}
       <div className="mb-4">
         <label htmlFor="image" className="block text-sm font-medium text-gray-700 mb-1">
+          <FiImage className="inline mr-2" />
           URL de la Imagen *
         </label>
         <input
@@ -200,17 +204,22 @@ const ProductForm = ({ onSuccess, initialData = null, isEdit = false }) => {
           name="image"
           value={formData.image}
           onChange={handleChange}
+          aria-label="URL de la imagen del producto"
+          aria-required="true"
+          aria-invalid={errors.image ? "true" : "false"}
+          aria-describedby={errors.image ? "image-error" : undefined}
           className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 ${
             errors.image ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-black'
           }`}
           placeholder="https://ejemplo.com/imagen.jpg"
         />
-        {errors.image && <p className="text-red-500 text-sm mt-1">{errors.image}</p>}
+        {errors.image && <p id="image-error" className="text-red-500 text-sm mt-1" role="alert">{errors.image}</p>}
       </div>
 
       {/* Categoría */}
       <div className="mb-6">
         <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-1">
+          <FiTag className="inline mr-2" />
           Categoría *
         </label>
         <select
@@ -218,6 +227,10 @@ const ProductForm = ({ onSuccess, initialData = null, isEdit = false }) => {
           name="category"
           value={formData.category}
           onChange={handleChange}
+          aria-label="Categoría del producto"
+          aria-required="true"
+          aria-invalid={errors.category ? "true" : "false"}
+          aria-describedby={errors.category ? "category-error" : undefined}
           className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 ${
             errors.category ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-black'
           }`}
@@ -230,19 +243,21 @@ const ProductForm = ({ onSuccess, initialData = null, isEdit = false }) => {
           <option value="accesorios">Accesorios</option>
           <option value="calzado">Calzado</option>
         </select>
-        {errors.category && <p className="text-red-500 text-sm mt-1">{errors.category}</p>}
+        {errors.category && <p id="category-error" className="text-red-500 text-sm mt-1" role="alert">{errors.category}</p>}
       </div>
 
       {/* Botón de envío */}
       <button
         type="submit"
         disabled={loading}
-        className={`w-full py-3 px-4 rounded-md font-bold text-white transition-colors ${
+        aria-label={loading ? 'Procesando...' : (isEdit ? 'Actualizar producto' : 'Crear producto')}
+        className={`w-full py-3 px-4 rounded-md font-bold text-white transition-colors flex items-center justify-center gap-2 ${
           loading
             ? 'bg-gray-400 cursor-not-allowed'
             : 'bg-black hover:bg-gray-800'
         }`}
       >
+        <FiSave size={20} />
         {loading ? 'Procesando...' : (isEdit ? 'Actualizar Producto' : 'Crear Producto')}
       </button>
     </form>

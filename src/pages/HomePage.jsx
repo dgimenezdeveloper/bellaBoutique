@@ -1,8 +1,10 @@
 // src/pages/HomePage.jsx
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import ProductCard from '../components/ProductCard';
 import { useProducts } from '../context/ProductContext';
+import { FiArrowRight } from 'react-icons/fi';
 
 const HomePage = () => {
   const { products, loading, error } = useProducts();
@@ -15,37 +17,57 @@ const HomePage = () => {
   const featuredProducts = products.slice(0, 8);
 
   return (
-    <div>
-      {/* Banner de Promoción */}
-      <div className="my-6 md:my-8">
-        <Link to="/login">
-          <img 
-          src="/images/banner.webp" // La ruta directa al archivo en la carpeta /public
-          alt="Envíos a todo el país" 
-          className="w-full h-auto rounded-lg shadow-lg" // Clases para que se vea bien
-          />
-        </Link>
-      </div>
+    <>
+      <Helmet>
+        <title>Bella Boutique - Moda Femenina y Accesorios</title>
+        <meta name="description" content="Descubre las últimas tendencias en moda femenina. Remeras, vestidos, pantalones y accesorios. Envíos a todo el país." />
+        <meta name="keywords" content="moda femenina, ropa, vestidos, remeras, pantalones, accesorios, boutique" />
+        <meta property="og:title" content="Bella Boutique - Moda Femenina" />
+        <meta property="og:description" content="Las mejores prendas y accesorios para tu estilo" />
+        <meta property="og:type" content="website" />
+      </Helmet>
+      
+      <div className="container-fluid px-3 px-md-4">
+        {/* Banner de Promoción */}
+        <div className="row my-4 my-md-5">
+          <div className="col-12">
+            <Link to="/login">
+              <img 
+                src="/images/banner.webp"
+                alt="Envíos a todo el país - Bella Boutique" 
+                className="w-100 rounded-3 shadow-lg" 
+                style={{ maxHeight: '400px', objectFit: 'cover' }}
+              />
+            </Link>
+          </div>
+        </div>
 
-      {/* Título de la sección de productos */}
-      <h1 className="text-center text-3xl font-bold my-8">NUESTROS FAVORITOS</h1>
+        {/* Título de la sección de productos */}
+        <h1 className="text-center text-uppercase fw-bold my-4 my-md-5" style={{ fontSize: 'clamp(1.5rem, 4vw, 2.5rem)' }}>
+          Nuestros Favoritos
+        </h1>
 
-      {/* Parrilla de Productos */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {featuredProducts.map(product => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </div>
+        {/* Parrilla de Productos con Bootstrap Grid */}
+        <div className="row g-3 g-md-4">
+          {featuredProducts.map(product => (
+            <div key={product.id} className="col-6 col-md-4 col-lg-3">
+              <ProductCard product={product} />
+            </div>
+          ))}
+        </div>
 
-      <div className="text-center mt-12">
-        <Link 
-          to="/products"
-          className="bg-black text-white font-bold py-3 px-12 rounded-full hover:bg-gray-800 transition-colors"
-        >
-          Ver todos los productos
-        </Link>
+        <div className="text-center my-5">
+          <Link 
+            to="/products"
+            className="btn btn-dark btn-lg rounded-pill px-5 py-3 fw-bold d-inline-flex align-items-center gap-2"
+            aria-label="Ver todos los productos disponibles"
+          >
+            Ver todos los productos
+            <FiArrowRight size={20} />
+          </Link>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

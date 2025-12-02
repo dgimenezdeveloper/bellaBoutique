@@ -1,48 +1,154 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import { FiShoppingCart, FiTag } from 'react-icons/fi';
+import { toast } from 'react-toastify';
+import styled from 'styled-components';
+
+const StyledCard = styled.div`
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  
+  &:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    transform: translateY(-2px);
+  }
+`;
+
+const Badge = styled.span`
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 0.25rem 0.5rem;
+  border-radius: 9999px;
+  color: white;
+  background-color: ${props => props.color || '#3b82f6'};
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+`;
+
+const ImageContainer = styled.div`
+  width: 100%;
+  height: 12rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  overflow: hidden;
+  border-radius: 0.375rem;
+  background-color: #f9fafb;
+`;
+
+const ProductImage = styled.img`
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+`;
+
+const ProductTitle = styled.h3`
+  font-size: 1.125rem;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-bottom: 0.5rem;
+`;
+
+const ProductPrice = styled.p`
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin: 0.5rem 0;
+`;
+
+const AddToCartButton = styled.button`
+  width: 100%;
+  background-color: #000;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: background-color 0.3s;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: auto;
+  
+  &:hover {
+    background-color: #1f2937;
+  }
+  
+  &:disabled {
+    background-color: #6b7280;
+    cursor: not-allowed;
+  }
+`;
 
 const ProductCard = ({ product }) => {
   const { addToCart } = useCart();
+  
+  const handleAddToCart = () => {
+    addToCart(product);
+    toast.success(`${product.title} agregado al carrito!`, {
+      position: "top-right",
+      autoClose: 2000,
+    });
+  };
   
   // Determinar el badge según el origen
   const getBadge = () => {
     if (product.source === 'mockapi') {
       return (
-        <span className="absolute top-2 right-2 bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded-full">
+        <Badge color="#2563eb" aria-label="Producto personalizado">
+          <FiTag size={12} />
           Personalizado
-        </span>
+        </Badge>
       );
     } else if (product.source === 'fakestore') {
       return (
-        <span className="absolute top-2 right-2 bg-purple-600 text-white text-xs font-bold px-2 py-1 rounded-full">
+        <Badge color="#7c3aed" aria-label="Producto del catálogo">
+          <FiTag size={12} />
           Catálogo
-        </span>
+        </Badge>
       );
     }
     return null;
   };
   
   return (
-    <div className="border rounded-lg p-4 shadow-lg hover:shadow-xl transition-shadow relative">
+    <StyledCard>
       {getBadge()}
-      <Link to={`/product/${product.id}`} className="flex-grow">
-        <img
-          src={product.image}
-          alt={product.title}
-          className="w-full h-48 object-contain mb-4"
-        />
-        <h3 className="text-lg font-semibold truncate">{product.title}</h3>
-        <p className="text-xl font-bold my-2">${product.price}</p>
+      <Link to={`/product/${product.id}`} className="flex-grow" aria-label={`Ver detalles de ${product.title}`}>
+        <ImageContainer>
+          <ProductImage
+            src={product.image}
+            alt={product.title}
+            loading="lazy"
+          />
+        </ImageContainer>
+        <ProductTitle>{product.title}</ProductTitle>
+        <ProductPrice>${product.price}</ProductPrice>
       </Link>
-      <button
-        onClick={() => addToCart(product)}
-        className="w-full bg-black text-white py-2 rounded-lg hover:bg-gray-800 transition-colors"
+      <AddToCartButton
+        onClick={handleAddToCart}
+        aria-label={`Agregar ${product.title} al carrito`}
       >
+        <FiShoppingCart size={18} />
         Agregar al Carrito
-      </button>
-    </div>
+      </AddToCartButton>
+    </StyledCard>
   );
 };
 
