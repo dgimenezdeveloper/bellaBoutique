@@ -1,5 +1,4 @@
 import React from 'react';
-import { Helmet } from 'react-helmet-async';
 import { useAuth } from '../context/AuthContext';
 import { FiUser, FiMail, FiPackage, FiHeart } from 'react-icons/fi';
 
@@ -8,11 +7,6 @@ const ProfilePage = () => {
   
   return (
     <>
-      <Helmet>
-        <title>Mi Perfil - Bella Boutique</title>
-        <meta name="description" content="Gestiona tu perfil, pedidos y preferencias en Bella Boutique." />
-        <meta name="robots" content="noindex, nofollow" />
-      </Helmet>
       
       <div className="container py-4 py-md-5">
         <h1 className="text-uppercase fw-bold mb-4 mb-md-5" style={{ fontSize: 'clamp(1.5rem, 4vw, 2.5rem)' }}>

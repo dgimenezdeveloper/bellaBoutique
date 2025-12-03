@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
 import { FiShoppingCart, FiHeart, FiShare2 } from 'react-icons/fi';
 import { useCart } from '../context/CartContext';
 import { useProducts } from '../context/ProductContext';
@@ -52,17 +51,6 @@ const ProductDetailPage = () => {
 
   return (
     <>
-      <Helmet>
-        <title>{product.title} - Bella Boutique</title>
-        <meta name="description" content={product.description} />
-        <meta name="keywords" content={`${product.category}, ${product.title}, comprar online, moda`} />
-        <meta property="og:title" content={product.title} />
-        <meta property="og:description" content={product.description} />
-        <meta property="og:image" content={product.image} />
-        <meta property="og:type" content="product" />
-        <meta property="product:price:amount" content={product.price} />
-        <meta property="product:price:currency" content="USD" />
-      </Helmet>
       
       <div className="container py-4 py-md-5">
         <div className="row g-4 g-md-5">

@@ -19,7 +19,7 @@ export default defineConfig({
         manualChunks: {
           'vendor-react': ['react', 'react-dom', 'react-router-dom'],
           'vendor-ui': ['styled-components', 'react-icons', 'react-toastify'],
-          'vendor-utils': ['react-helmet-async']
+          'vendor-utils': []
         }
       }
     },

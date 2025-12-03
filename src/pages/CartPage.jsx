@@ -1,7 +1,6 @@
 // src/pages/CartPage.jsx
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
 import { FiTrash2, FiShoppingBag, FiMinus, FiPlus } from 'react-icons/fi';
 import { useCart } from '../context/CartContext';
 import { toast } from 'react-toastify';

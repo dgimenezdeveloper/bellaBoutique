@@ -1,7 +1,6 @@
 // src/pages/HomePage.jsx
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
 import ProductCard from '../components/ProductCard';
 import { useProducts } from '../context/ProductContext';
 import { FiArrowRight } from 'react-icons/fi';
@@ -18,14 +17,6 @@ const HomePage = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Bella Boutique - Moda Femenina y Accesorios</title>
-        <meta name="description" content="Descubre las últimas tendencias en moda femenina. Remeras, vestidos, pantalones y accesorios. Envíos a todo el país." />
-        <meta name="keywords" content="moda femenina, ropa, vestidos, remeras, pantalones, accesorios, boutique" />
-        <meta property="og:title" content="Bella Boutique - Moda Femenina" />
-        <meta property="og:description" content="Las mejores prendas y accesorios para tu estilo" />
-        <meta property="og:type" content="website" />
-      </Helmet>
       
       <div className="container-fluid px-2 px-sm-3 px-md-4">
         {/* Banner de Promoción */}

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
 import { useAuth } from '../context/AuthContext';
 import { FiMail, FiLock, FiLogIn } from 'react-icons/fi';
 import { toast } from 'react-toastify';
@@ -26,11 +25,6 @@ const LoginPage = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Iniciar Sesión - Bella Boutique</title>
-        <meta name="description" content="Inicia sesión en tu cuenta de Bella Boutique para acceder a tu perfil y realizar compras." />
-        <meta name="robots" content="noindex, nofollow" />
-      </Helmet>
       
       <div className="container py-5">
         <div className="row justify-content-center">

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
 import { useProducts } from '../context/ProductContext';
 import ConfirmModal from '../components/ConfirmModal';
 import ProductForm from '../components/ProductForm';
@@ -74,11 +73,6 @@ const AdminProductsPage = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Administrar Productos - Bella Boutique</title>
-        <meta name="description" content="Panel de administración de productos. Crear, editar y eliminar productos del catálogo." />
-        <meta name="robots" content="noindex, nofollow" />
-      </Helmet>
       
       <div className="container mx-auto py-4 py-md-5">
         <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 mb-md-5 gap-3">

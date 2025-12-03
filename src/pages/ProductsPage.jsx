@@ -1,5 +1,4 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
 import { useLocation } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
 import CategoryFilter from '../components/CategoryFilter';
@@ -109,11 +108,6 @@ const ProductsPage = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Productos - Bella Boutique</title>
-        <meta name="description" content="Explora nuestra colección completa de ropa y accesorios. Encuentra tu estilo perfecto en Bella Boutique." />
-        <meta name="keywords" content="productos, catálogo, ropa, accesorios, comprar online" />
-      </Helmet>
       
       <div className="container py-4">
         <h1 className="text-center text-uppercase fw-bold mb-4 mb-md-5" style={{ fontSize: 'clamp(1.5rem, 4vw, 2.5rem)' }}>
