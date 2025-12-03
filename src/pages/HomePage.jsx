@@ -27,39 +27,40 @@ const HomePage = () => {
         <meta property="og:type" content="website" />
       </Helmet>
       
-      <div className="container-fluid px-3 px-md-4">
+      <div className="container-fluid px-2 px-sm-3 px-md-4">
         {/* Banner de Promoción */}
-        <div className="row my-4 my-md-5">
+        <div className="row my-3 my-md-4 my-lg-5">
           <div className="col-12">
             <Link to="/login">
               <img 
                 src="/images/banner.webp"
                 alt="Envíos a todo el país - Bella Boutique" 
                 className="w-100 rounded-3 shadow-lg" 
-                style={{ maxHeight: '400px', objectFit: 'cover' }}
+                style={{ maxHeight: '300px', objectFit: 'cover' }}
               />
             </Link>
           </div>
         </div>
 
         {/* Título de la sección de productos */}
-        <h1 className="text-center text-uppercase fw-bold my-4 my-md-5" style={{ fontSize: 'clamp(1.5rem, 4vw, 2.5rem)' }}>
+        <h1 className="text-center text-uppercase fw-bold my-3 my-md-4 my-lg-5" style={{ fontSize: 'clamp(1.25rem, 5vw, 2.5rem)', letterSpacing: '0.05em' }}>
           Nuestros Favoritos
         </h1>
 
         {/* Parrilla de Productos con Bootstrap Grid */}
-        <div className="row g-3 g-md-4">
+        <div className="row g-2 g-sm-3 g-md-4">
           {featuredProducts.map(product => (
-            <div key={product.id} className="col-6 col-md-4 col-lg-3">
+            <div key={product.id} className="col-6 col-sm-6 col-md-4 col-lg-3">
               <ProductCard product={product} />
             </div>
           ))}
         </div>
 
-        <div className="text-center my-5">
+        <div className="text-center my-4 my-md-5 pb-3">
           <Link 
             to="/products"
-            className="btn btn-dark btn-lg rounded-pill px-5 py-3 fw-bold d-inline-flex align-items-center gap-2"
+            className="btn btn-dark btn-lg rounded-pill px-4 px-md-5 py-2 py-md-3 fw-bold d-inline-flex align-items-center gap-2"
+            style={{ fontSize: 'clamp(0.875rem, 2vw, 1rem)' }}
             aria-label="Ver todos los productos disponibles"
           >
             Ver todos los productos

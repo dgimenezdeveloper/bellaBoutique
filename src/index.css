@@ -1,3 +1,49 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Mejoras de responsive design */
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+
+  /* Mejora de touch targets para móviles */
+  button, a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Prevenir zoom en inputs en iOS */
+  input[type="text"],
+  input[type="search"],
+  textarea {
+    font-size: 16px;
+  }
+
+  @media (min-width: 768px) {
+    input[type="text"],
+    input[type="search"],
+    textarea {
+      font-size: 14px;
+    }
+  }
+}
+
+/* Ocultar scrollbar en menú móvil */
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}

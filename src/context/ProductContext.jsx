@@ -1,12 +1,12 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
 
 const ProductContext = createContext();
 
 export const useProducts = () => useContext(ProductContext);
 
 // URL de MockAPI configurada para Bella Boutique
-const API_BASE_URL = 'https://692f619991e00bafccd76fb9.mockapi.io';
-const FAKESTORE_API = 'https://fakestoreapi.com/products';
+const API_BASE_URL = import.meta.env.VITE_MOCKAPI_BASE_URL || 'https://692f619991e00bafccd76fb9.mockapi.io';
+const FAKESTORE_API = import.meta.env.VITE_FAKESTORE_API_URL || 'https://fakestoreapi.com/products';
 
 export const ProductProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
@@ -14,7 +14,7 @@ export const ProductProvider = ({ children }) => {
   const [error, setError] = useState(null);
 
   // Obtener todos los productos (MockAPI + FakeStore)
-  const fetchProducts = async () => {
+  const fetchProducts = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
@@ -54,14 +54,16 @@ export const ProductProvider = ({ children }) => {
       setProducts(allProducts);
     } catch (err) {
       setError(err.message);
-      console.error('Error fetching products:', err);
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Error fetching products:', err);
+      }
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   // Crear un nuevo producto
-  const createProduct = async (productData) => {
+  const createProduct = useCallback(async (productData) => {
     setLoading(true);
     setError(null);
     try {
@@ -78,15 +80,17 @@ export const ProductProvider = ({ children }) => {
       return { success: true, product: newProduct };
     } catch (err) {
       setError(err.message);
-      console.error('Error creating product:', err);
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Error creating product:', err);
+      }
       return { success: false, error: err.message };
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   // Actualizar un producto existente
-  const updateProduct = async (id, productData) => {
+  const updateProduct = useCallback(async (id, productData) => {
     setLoading(true);
     setError(null);
     try {
@@ -105,15 +109,17 @@ export const ProductProvider = ({ children }) => {
       return { success: true, product: updatedProduct };
     } catch (err) {
       setError(err.message);
-      console.error('Error updating product:', err);
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Error updating product:', err);
+      }
       return { success: false, error: err.message };
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   // Eliminar un producto
-  const deleteProduct = async (id) => {
+  const deleteProduct = useCallback(async (id) => {
     setLoading(true);
     setError(null);
     try {
@@ -127,30 +133,32 @@ export const ProductProvider = ({ children }) => {
       return { success: true };
     } catch (err) {
       setError(err.message);
-      console.error('Error deleting product:', err);
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Error deleting product:', err);
+      }
       return { success: false, error: err.message };
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   // Cargar productos al montar el componente
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [fetchProducts]);
+
+  const value = useMemo(() => ({
+    products,
+    loading,
+    error,
+    fetchProducts,
+    createProduct,
+    updateProduct,
+    deleteProduct,
+  }), [products, loading, error, fetchProducts, createProduct, updateProduct, deleteProduct]);
 
   return (
-    <ProductContext.Provider
-      value={{
-        products,
-        loading,
-        error,
-        fetchProducts,
-        createProduct,
-        updateProduct,
-        deleteProduct,
-      }}
-    >
+    <ProductContext.Provider value={value}>
       {children}
     </ProductContext.Provider>
   );

@@ -1,13 +1,28 @@
 {
   "name": "bella-boutique",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "Una aplicación de eCommerce moderna para moda femenina",
   "type": "module",
+  "author": "FolKode Group",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dgimenezdeveloper/bellaBoutique"
+  },
+  "keywords": [
+    "ecommerce",
+    "react",
+    "vite",
+    "tailwind",
+    "fashion",
+    "boutique"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "populate": "node scripts/populate-mockapi.js"
   },
   "dependencies": {
     "bootstrap": "^5.3.8",
@@ -31,6 +46,7 @@
     "globals": "^16.4.0",
     "postcss": "^8.5.6",
     "tailwindcss": "^3.4.18",
+    "terser": "^5.44.1",
     "vite": "^7.1.7"
   }
 }

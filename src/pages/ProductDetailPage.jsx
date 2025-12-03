@@ -1,30 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { FiShoppingCart, FiHeart, FiShare2 } from 'react-icons/fi';
 import { useCart } from '../context/CartContext';
+import { useProducts } from '../context/ProductContext';
 import { toast } from 'react-toastify';
 
 const ProductDetailPage = () => {
   const { productId } = useParams();
   const { addToCart } = useCart();
-  const [product, setProduct] = useState(null);
+  const { products, loading: productsLoading } = useProducts();
   const [loading, setLoading] = useState(true);
 
+  // Buscar producto en el contexto primero
+  const product = useMemo(() => {
+    return products.find(p => p.id === productId || p.id === parseInt(productId));
+  }, [products, productId]);
+
   useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        const response = await fetch(`https://fakestoreapi.com/products/${productId}`);
-        const data = await response.json();
-        setProduct(data);
-      } catch (error) {
-        console.error("Error fetching product:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchProduct();
-  }, [productId]);
+    if (!productsLoading) {
+      setLoading(false);
+    }
+  }, [productsLoading]);
 
   const handleAddToCart = () => {
     addToCart(product);
