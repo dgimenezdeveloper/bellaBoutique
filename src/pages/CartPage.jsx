@@ -1,9 +1,10 @@
 // src/pages/CartPage.jsx
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { FiTrash2, FiShoppingBag, FiMinus, FiPlus } from 'react-icons/fi';
 import { useCart } from '../context/CartContext';
+import ConfirmModal from '../components/ConfirmModal';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
 
@@ -25,7 +26,8 @@ const QuantityButton = styled.button`
 `;
 
 const CartPage = () => {
-  const { cart, removeFromCart, addToCart } = useCart();
+  const { cart, removeFromCart, addToCart, clearCart } = useCart();
+  const [successModal, setSuccessModal] = useState(false);
 
   const handleUpdateQuantity = (id, quantity) => {
     if (quantity < 1) return;
@@ -184,6 +186,7 @@ const CartPage = () => {
                 <button 
                   className="btn btn-dark w-100 rounded-pill py-3 fw-bold"
                   aria-label="Finalizar compra"
+                  onClick={() => setSuccessModal(true)}
                 >
                   Finalizar Compra
                 </button>
@@ -199,6 +202,17 @@ const CartPage = () => {
           </div>
         </div>
       </div>
+      <ConfirmModal
+        isOpen={successModal}
+        onClose={() => setSuccessModal(false)}
+        onConfirm={() => {
+          setSuccessModal(false);
+          clearCart();
+        }}
+        title="¡Compra exitosa!"
+        message="Tu compra ha sido realizada con éxito. ¡Gracias por confiar en Bella Boutique!"
+        loading={false}
+      />
     </>
   );
 };
