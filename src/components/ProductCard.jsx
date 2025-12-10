@@ -158,9 +158,9 @@ const ProductCard = ({ product }) => {
   const getBadge = () => {
     if (product.source === 'mockapi') {
       return (
-        <Badge color="#2563eb" aria-label="Producto personalizado">
+        <Badge color="#2563eb" aria-label="Último ingreso">
           <FiTag size={12} />
-          Personalizado
+          Último Ingreso
         </Badge>
       );
     } else if (product.source === 'fakestore') {

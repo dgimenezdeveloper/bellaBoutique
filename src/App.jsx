@@ -2,8 +2,10 @@ import React, { lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 // Layouts y Componentes (cargados inmediatamente)
+
 import MainLayout from './layouts/MainLayout';
 import ProtectedRoute from './components/ProtectedRoute';
+const NuevosIngresosPage = lazy(() => import('./pages/NuevosIngresosPage'));
 
 // Lazy loading de páginas
 const HomePage = lazy(() => import('./pages/HomePage'));
@@ -34,6 +36,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/products" element={<ProductsPage />} />
+          <Route path="/category/nuevos-ingresos" element={<NuevosIngresosPage />} />
           <Route path="/product/:productId" element={<ProductDetailPage />} />
           <Route element={<ProtectedRoute />}>
             <Route path="/cart" element={<CartPage />} />
