@@ -53,14 +53,14 @@ const ProductDetailPage = () => {
   return (
     <>
       <Helmet>
-        <title>{product.title} - Bella Boutique</title>
-        <meta name="description" content={product.description} />
-        <meta name="keywords" content={`${product.category}, ${product.title}, comprar online, moda`} />
-        <meta property="og:title" content={product.title} />
-        <meta property="og:description" content={product.description} />
-        <meta property="og:image" content={product.image} />
+        <title>{`${product.title ? String(product.title) : 'Producto'} - Bella Boutique`}</title>
+        <meta name="description" content={product.description || 'Detalle de producto en Bella Boutique.'} />
+        <meta name="keywords" content={`${product.category ? String(product.category) : ''}, ${product.title ? String(product.title) : ''}, comprar online, moda`} />
+        <meta property="og:title" content={product.title ? String(product.title) : 'Producto'} />
+        <meta property="og:description" content={product.description || 'Detalle de producto en Bella Boutique.'} />
+        <meta property="og:image" content={product.image || ''} />
         <meta property="og:type" content="product" />
-        <meta property="product:price:amount" content={product.price} />
+        <meta property="product:price:amount" content={product.price ? String(product.price) : ''} />
         <meta property="product:price:currency" content="USD" />
       </Helmet>
       

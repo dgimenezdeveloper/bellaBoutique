@@ -27,7 +27,7 @@ const LoginPage = () => {
   return (
     <>
       <Helmet>
-        <title>Iniciar Sesión - Bella Boutique</title>
+        <title>{'Iniciar Sesión - Bella Boutique'}</title>
         <meta name="description" content="Inicia sesión en tu cuenta de Bella Boutique para acceder a tu perfil y realizar compras." />
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>

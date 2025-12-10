@@ -19,7 +19,7 @@ const HomePage = () => {
   return (
     <>
       <Helmet>
-        <title>Bella Boutique - Moda Femenina y Accesorios</title>
+        <title>{'Bella Boutique - Moda Femenina y Accesorios'}</title>
         <meta name="description" content="Descubre las últimas tendencias en moda femenina. Remeras, vestidos, pantalones y accesorios. Envíos a todo el país." />
         <meta name="keywords" content="moda femenina, ropa, vestidos, remeras, pantalones, accesorios, boutique" />
         <meta property="og:title" content="Bella Boutique - Moda Femenina" />

@@ -75,7 +75,7 @@ const AdminProductsPage = () => {
   return (
     <>
       <Helmet>
-        <title>Administrar Productos - Bella Boutique</title>
+        <title>{'Administrar Productos - Bella Boutique'}</title>
         <meta name="description" content="Panel de administración de productos. Crear, editar y eliminar productos del catálogo." />
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>

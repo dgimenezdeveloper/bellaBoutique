@@ -9,7 +9,7 @@ const ProfilePage = () => {
   return (
     <>
       <Helmet>
-        <title>Mi Perfil - Bella Boutique</title>
+        <title>{'Mi Perfil - Bella Boutique'}</title>
         <meta name="description" content="Gestiona tu perfil, pedidos y preferencias en Bella Boutique." />
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>

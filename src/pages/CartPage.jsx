@@ -81,8 +81,8 @@ const CartPage = () => {
   return (
     <>
       <Helmet>
-        <title>Carrito de Compras ({cart.length}) - Bella Boutique</title>
-        <meta name="description" content={`Tienes ${cart.length} productos en tu carrito. Finaliza tu compra ahora.`} />
+        <title>{`Carrito de Compras (${typeof cart.length === 'number' ? cart.length : 0}) - Bella Boutique`}</title>
+        <meta name="description" content={`Tienes ${typeof cart.length === 'number' ? cart.length : 0} productos en tu carrito. Finaliza tu compra ahora.`} />
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
       

@@ -110,7 +110,7 @@ const ProductsPage = () => {
   return (
     <>
       <Helmet>
-        <title>Productos - Bella Boutique</title>
+        <title>{'Productos - Bella Boutique'}</title>
         <meta name="description" content="Explora nuestra colección completa de ropa y accesorios. Encuentra tu estilo perfecto en Bella Boutique." />
         <meta name="keywords" content="productos, catálogo, ropa, accesorios, comprar online" />
       </Helmet>
