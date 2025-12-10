@@ -93,17 +93,6 @@ const Navbar = ({ cartItemCount }) => {
   const [openMenu, setOpenMenu] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { user, logout } = useAuth();
-
-  const handleMouseEnter = (title) => {
-    if (window.innerWidth >= 768) {
-      setOpenMenu(title);
-    }
-  };
-
-  const handleMouseLeave = () => {
-    setOpenMenu(null);
-  };
-
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
@@ -112,12 +101,85 @@ const Navbar = ({ cartItemCount }) => {
     setMobileMenuOpen(false);
   };
 
+  const handleMouseEnter = (title) => {
+    setOpenMenu(title);
+  };
+
+  const handleMouseLeave = () => {
+    setOpenMenu(null);
+  };
+
   const activeLinkStyle = {
     borderBottom: '2px solid black',
   };
 
   return (
     <div className="sticky top-0 z-50 bg-white shadow-md" onMouseLeave={handleMouseLeave}>
+            {/* Menú Hamburguesa (Móvil) */}
+            <button 
+              className="md:hidden text-gray-700 p-2" 
+              onClick={toggleMobileMenu}
+              aria-label="Toggle menu"
+            >
+              {mobileMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+            </button>
+            {/* Menú Móvil */}
+            {mobileMenuOpen && (
+              <div className="md:hidden fixed inset-0 top-[140px] bg-white z-40 overflow-y-auto">
+                <div className="px-4 py-4 space-y-4">
+                  {/* Enlaces de usuario móvil */}
+                  <div className="border-b pb-4 space-y-3">
+                    {!user ? (
+                      <>
+                        <NavLink 
+                          to="/login" 
+                          className="block py-2 hover:text-gray-500"
+                          onClick={closeMobileMenu}
+                        >
+                          Regístrate
+                        </NavLink>
+                        <NavLink 
+                          to="/login" 
+                          className="block py-2 hover:text-gray-500"
+                          onClick={closeMobileMenu}
+                        >
+                          Iniciar sesión
+                        </NavLink>
+                      </>
+                    ) : (
+                      <>
+                        <div className="py-2 font-bold">Hola, {user.username}</div>
+                        <NavLink 
+                          to="/admin/products" 
+                          className="block py-2 text-blue-600 font-bold"
+                          onClick={closeMobileMenu}
+                        >
+                          Admin
+                        </NavLink>
+                        <button 
+                          onClick={() => { logout(); closeMobileMenu(); }} 
+                          className="block py-2 text-left w-full"
+                        >
+                          Cerrar sesión
+                        </button>
+                      </>
+                    )}
+                  </div>
+
+                  {/* Enlaces de navegación */}
+                  {navLinks.map((link) => (
+                    <NavLink
+                      key={link.title}
+                      to={link.path}
+                      className={`block py-3 text-lg font-semibold uppercase border-b hover:text-gray-500 ${link.special ? 'text-red-500' : ''}`}
+                      onClick={closeMobileMenu}
+                    >
+                      {link.title}
+                    </NavLink>
+                  ))}
+                </div>
+              </div>
+            )}
       {/* 1. Barra superior de anuncios */}
       <div className="bg-black text-white text-center text-xs sm:text-sm py-2 px-2">
         Regístrate para comprar
@@ -194,13 +256,13 @@ const Navbar = ({ cartItemCount }) => {
         <NavbarSearch />
       </div>
 
-      {/* 3. Menú de Navegación Desktop */}
-      <nav className="border-t border-gray-200 hidden md:block">
-        <div className="container mx-auto px-4 flex justify-center items-center gap-4 lg:gap-8 text-xs lg:text-sm font-semibold uppercase py-3 relative overflow-x-auto">
+      {/* 3. Menú de Navegación */}
+      <nav className="border-t border-gray-200">
+        <div className="container mx-auto px-4 flex justify-center items-center gap-8 text-md font-semibold uppercase py-3 relative">
           {navLinks.map((link) => (
             <div
               key={link.title}
-              className="py-2 whitespace-nowrap"
+              className="py-2"
               onMouseEnter={() => handleMouseEnter(link.title)}
             >
               <NavLink
@@ -218,63 +280,7 @@ const Navbar = ({ cartItemCount }) => {
         </div>
       </nav>
 
-      {/* Menú Móvil */}
-      {mobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 top-[140px] bg-white z-40 overflow-y-auto">
-          <div className="px-4 py-4 space-y-4">
-            {/* Enlaces de usuario móvil */}
-            <div className="border-b pb-4 space-y-3">
-              {!user ? (
-                <>
-                  <NavLink 
-                    to="/login" 
-                    className="block py-2 hover:text-gray-500"
-                    onClick={closeMobileMenu}
-                  >
-                    Regístrate
-                  </NavLink>
-                  <NavLink 
-                    to="/login" 
-                    className="block py-2 hover:text-gray-500"
-                    onClick={closeMobileMenu}
-                  >
-                    Iniciar sesión
-                  </NavLink>
-                </>
-              ) : (
-                <>
-                  <div className="py-2 font-bold">Hola, {user.username}</div>
-                  <NavLink 
-                    to="/admin/products" 
-                    className="block py-2 text-blue-600 font-bold"
-                    onClick={closeMobileMenu}
-                  >
-                    Admin
-                  </NavLink>
-                  <button 
-                    onClick={() => { logout(); closeMobileMenu(); }} 
-                    className="block py-2 text-left w-full"
-                  >
-                    Cerrar sesión
-                  </button>
-                </>
-              )}
-            </div>
-
-            {/* Enlaces de navegación */}
-            {navLinks.map((link) => (
-              <NavLink
-                key={link.title}
-                to={link.path}
-                className={`block py-3 text-lg font-semibold uppercase border-b hover:text-gray-500 ${link.special ? 'text-red-500' : ''}`}
-                onClick={closeMobileMenu}
-              >
-                {link.title}
-              </NavLink>
-            ))}
-          </div>
-        </div>
-      )}
+      {/* Menú Móvil (opcional: puedes restaurar lógica móvil si lo deseas, pero la prioridad es el menú desktop) */}
     </div>
   );
 };
