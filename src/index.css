@@ -2,16 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Mejoras de responsive design */
+/* Base styles */
 @layer base {
   html {
     -webkit-tap-highlight-color: transparent;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
   }
 
   body {
     overflow-x: hidden;
+    font-family: 'Inter', system-ui, sans-serif;
+    background-color: #fafafa;
+    color: #1a1a1a;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
   }
 
   /* Mejora de touch targets para móviles */
@@ -23,6 +35,8 @@
   /* Prevenir zoom en inputs en iOS */
   input[type="text"],
   input[type="search"],
+  input[type="email"],
+  input[type="password"],
   textarea {
     font-size: 16px;
   }
@@ -30,13 +44,94 @@
   @media (min-width: 768px) {
     input[type="text"],
     input[type="search"],
+    input[type="email"],
+    input[type="password"],
     textarea {
       font-size: 14px;
     }
   }
+
+  /* Smooth focus states */
+  *:focus-visible {
+    outline: 2px solid #c9a962;
+    outline-offset: 2px;
+  }
+
+  /* Selection color */
+  ::selection {
+    background-color: #e8b4b8;
+    color: #1a1a1a;
+  }
 }
 
-/* Ocultar scrollbar en menú móvil */
+/* Component styles */
+@layer components {
+  .btn-primary {
+    @apply bg-brand-black text-white px-6 py-3 font-medium tracking-wide uppercase text-sm;
+    @apply transition-all duration-300 ease-out;
+    @apply hover:bg-brand-gold hover:text-brand-black;
+    letter-spacing: 0.1em;
+  }
+
+  .btn-secondary {
+    @apply bg-transparent border border-brand-black text-brand-black px-6 py-3 font-medium tracking-wide uppercase text-sm;
+    @apply transition-all duration-300 ease-out;
+    @apply hover:bg-brand-black hover:text-white;
+    letter-spacing: 0.1em;
+  }
+
+  .btn-gold {
+    @apply bg-brand-gold text-brand-black px-6 py-3 font-medium tracking-wide uppercase text-sm;
+    @apply transition-all duration-300 ease-out;
+    @apply hover:bg-brand-black hover:text-white;
+    letter-spacing: 0.1em;
+  }
+
+  .section-title {
+    @apply text-3xl md:text-4xl lg:text-5xl font-display text-center mb-4;
+    font-weight: 500;
+  }
+
+  .section-subtitle {
+    @apply text-gray-600 text-center max-w-2xl mx-auto mb-12 text-lg;
+  }
+
+  .card-elegant {
+    @apply bg-white rounded-none overflow-hidden;
+    @apply shadow-card transition-all duration-500 ease-out;
+    @apply hover:shadow-card-hover hover:-translate-y-1;
+  }
+
+  .link-underline {
+    @apply relative inline-block;
+  }
+
+  .link-underline::after {
+    content: '';
+    @apply absolute bottom-0 left-0 w-0 h-px bg-brand-gold;
+    @apply transition-all duration-300 ease-out;
+  }
+
+  .link-underline:hover::after {
+    @apply w-full;
+  }
+
+  .container-elegant {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .badge-new {
+    @apply absolute top-4 left-4 bg-brand-gold text-brand-black px-3 py-1;
+    @apply text-xs font-semibold uppercase tracking-widest;
+  }
+
+  .badge-sale {
+    @apply absolute top-4 right-4 bg-brand-rose text-brand-black px-3 py-1;
+    @apply text-xs font-semibold uppercase tracking-widest;
+  }
+}
+
+/* Utility styles */
 @layer utilities {
   .scrollbar-hide {
     -ms-overflow-style: none;
@@ -45,5 +140,26 @@
   
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .gradient-elegant {
+    background: linear-gradient(135deg, #fdf2f0 0%, #F5F1EB 100%);
+  }
+
+  .gradient-dark {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
   }
 }

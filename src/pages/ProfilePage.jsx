@@ -1,7 +1,8 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { FiUser, FiMail, FiPackage, FiHeart } from 'react-icons/fi';
+import { FiUser, FiMail, FiPackage, FiHeart, FiChevronRight, FiPhone, FiMapPin, FiSettings } from 'react-icons/fi';
 
 const ProfilePage = () => {
   const { user } = useAuth();
@@ -13,92 +14,121 @@ const ProfilePage = () => {
         <meta name="description" content="Gestiona tu perfil, pedidos y preferencias en Bella Boutique." />
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
+
+      {/* Breadcrumb */}
+      <div className="container-elegant py-4 border-b border-gray-100">
+        <nav className="flex items-center gap-2 text-sm">
+          <Link to="/" className="text-gray-500 hover:text-brand-black transition-colors">
+            Inicio
+          </Link>
+          <FiChevronRight size={14} className="text-gray-400" />
+          <span className="text-brand-black font-medium">Mi Perfil</span>
+        </nav>
+      </div>
       
-      <div className="container py-4 py-md-5">
-        <h1 className="text-uppercase fw-bold mb-4 mb-md-5" style={{ fontSize: 'clamp(1.5rem, 4vw, 2.5rem)' }}>
-          Mi Perfil
-        </h1>
+      <div className="container-elegant py-8 sm:py-12">
+        <h1 className="section-title text-center mb-8 sm:mb-12">Mi Perfil</h1>
         
-        <div className="row g-4">
-          <div className="col-md-4">
-            <div className="card shadow-sm">
-              <div className="card-body text-center p-4">
-                <div className="rounded-circle bg-dark d-inline-flex align-items-center justify-content-center mb-3" 
-                     style={{ width: '100px', height: '100px' }}>
-                  <FiUser size={50} className="text-white" />
+        <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
+          {/* Sidebar - User Card */}
+          <div className="lg:col-span-1">
+            <div className="bg-white p-6 sm:p-8 shadow-card">
+              <div className="text-center">
+                <div className="w-24 h-24 bg-brand-black mx-auto mb-4 flex items-center justify-center">
+                  <FiUser size={40} className="text-white" />
                 </div>
-                <h3 className="h5 fw-bold mb-2">{user?.username || 'Usuario'}</h3>
-                <p className="text-muted small mb-3">
-                  <FiMail className="me-2" />
+                <h3 className="font-display text-xl font-medium text-brand-black mb-1">
+                  {user?.username || 'Usuario'}
+                </h3>
+                <p className="text-gray-500 text-sm flex items-center justify-center gap-2 mb-6">
+                  <FiMail size={14} />
                   {user?.email || 'usuario@email.com'}
                 </p>
-                <button className="btn btn-outline-dark w-100 rounded-pill">
+                <button className="w-full py-3 border border-brand-black text-brand-black font-medium text-sm tracking-wide hover:bg-brand-black hover:text-white transition-all">
                   Editar Perfil
                 </button>
               </div>
             </div>
           </div>
           
-          <div className="col-md-8">
-            <div className="row g-4">
-              <div className="col-sm-6">
-                <div className="card shadow-sm h-100">
-                  <div className="card-body">
-                    <div className="d-flex align-items-center mb-3">
-                      <div className="rounded-circle bg-primary bg-opacity-10 p-3 me-3">
-                        <FiPackage size={24} className="text-primary" />
-                      </div>
-                      <div>
-                        <h4 className="h6 mb-0">Mis Pedidos</h4>
-                        <p className="text-muted small mb-0">Ver historial</p>
-                      </div>
-                    </div>
-                    <p className="text-muted mb-0">
-                      Revisa el estado de tus pedidos y realiza seguimiento de tus compras.
-                    </p>
+          {/* Main Content */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Quick Links */}
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div className="bg-white p-6 shadow-card hover:shadow-card-hover transition-shadow group cursor-pointer">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-brand-blush flex items-center justify-center group-hover:bg-brand-rose transition-colors">
+                    <FiPackage size={20} className="text-brand-black" />
+                  </div>
+                  <div>
+                    <h4 className="font-display text-lg font-medium text-brand-black mb-1">Mis Pedidos</h4>
+                    <p className="text-gray-500 text-sm">Ver historial de compras</p>
                   </div>
                 </div>
               </div>
               
-              <div className="col-sm-6">
-                <div className="card shadow-sm h-100">
-                  <div className="card-body">
-                    <div className="d-flex align-items-center mb-3">
-                      <div className="rounded-circle bg-danger bg-opacity-10 p-3 me-3">
-                        <FiHeart size={24} className="text-danger" />
-                      </div>
-                      <div>
-                        <h4 className="h6 mb-0">Favoritos</h4>
-                        <p className="text-muted small mb-0">Lista de deseos</p>
-                      </div>
-                    </div>
-                    <p className="text-muted mb-0">
-                      Guarda tus productos favoritos para comprarlos más tarde.
-                    </p>
+              <div className="bg-white p-6 shadow-card hover:shadow-card-hover transition-shadow group cursor-pointer">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-brand-blush flex items-center justify-center group-hover:bg-brand-rose transition-colors">
+                    <FiHeart size={20} className="text-brand-black" />
+                  </div>
+                  <div>
+                    <h4 className="font-display text-lg font-medium text-brand-black mb-1">Favoritos</h4>
+                    <p className="text-gray-500 text-sm">Tu lista de deseos</p>
                   </div>
                 </div>
               </div>
             </div>
             
-            <div className="card shadow-sm mt-4">
-              <div className="card-body">
-                <h3 className="h5 fw-bold mb-4">Información Personal</h3>
-                <div className="row g-3">
-                  <div className="col-md-6">
-                    <p className="mb-2"><strong>Nombre:</strong></p>
-                    <p className="text-muted">{user?.username || 'Usuario'}</p>
+            {/* Personal Information */}
+            <div className="bg-white p-6 sm:p-8 shadow-card">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="font-display text-xl font-medium text-brand-black">
+                  Información Personal
+                </h3>
+                <button className="text-brand-gold hover:text-brand-black transition-colors">
+                  <FiSettings size={20} />
+                </button>
+              </div>
+              
+              <div className="grid sm:grid-cols-2 gap-6">
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 bg-gray-50 flex items-center justify-center flex-shrink-0">
+                    <FiUser size={18} className="text-gray-400" />
                   </div>
-                  <div className="col-md-6">
-                    <p className="mb-2"><strong>Email:</strong></p>
-                    <p className="text-muted">{user?.email || 'usuario@email.com'}</p>
+                  <div>
+                    <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Nombre</p>
+                    <p className="text-brand-black font-medium">{user?.username || 'Usuario'}</p>
                   </div>
-                  <div className="col-md-6">
-                    <p className="mb-2"><strong>Teléfono:</strong></p>
-                    <p className="text-muted">No configurado</p>
+                </div>
+                
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 bg-gray-50 flex items-center justify-center flex-shrink-0">
+                    <FiMail size={18} className="text-gray-400" />
                   </div>
-                  <div className="col-md-6">
-                    <p className="mb-2"><strong>Dirección:</strong></p>
-                    <p className="text-muted">No configurada</p>
+                  <div>
+                    <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Email</p>
+                    <p className="text-brand-black font-medium">{user?.email || 'usuario@email.com'}</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 bg-gray-50 flex items-center justify-center flex-shrink-0">
+                    <FiPhone size={18} className="text-gray-400" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Teléfono</p>
+                    <p className="text-gray-500 italic text-sm">No configurado</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 bg-gray-50 flex items-center justify-center flex-shrink-0">
+                    <FiMapPin size={18} className="text-gray-400" />
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">Dirección</p>
+                    <p className="text-gray-500 italic text-sm">No configurada</p>
                   </div>
                 </div>
               </div>

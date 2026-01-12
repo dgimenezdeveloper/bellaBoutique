@@ -1,73 +1,5 @@
 import React from 'react';
 import { FiSearch, FiX } from 'react-icons/fi';
-import styled from 'styled-components';
-
-const SearchContainer = styled.div`
-  width: 100%;
-  max-width: 600px;
-  margin: 0 auto 2rem;
-`;
-
-const SearchWrapper = styled.div`
-  position: relative;
-  display: flex;
-  align-items: center;
-`;
-
-const SearchInput = styled.input`
-  width: 100%;
-  padding: 0.75rem 3rem 0.75rem 3rem;
-  border: 2px solid #e5e7eb;
-  border-radius: 9999px;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-  
-  &:focus {
-    outline: none;
-    border-color: #000;
-    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
-  }
-  
-  &::placeholder {
-    color: #9ca3af;
-  }
-`;
-
-const SearchIcon = styled.div`
-  position: absolute;
-  left: 1rem;
-  color: #6b7280;
-  display: flex;
-  align-items: center;
-`;
-
-const ClearButton = styled.button`
-  position: absolute;
-  right: 1rem;
-  background: none;
-  border: none;
-  color: #6b7280;
-  cursor: pointer;
-  padding: 0.25rem;
-  display: flex;
-  align-items: center;
-  transition: color 0.2s;
-  
-  &:hover {
-    color: #000;
-  }
-  
-  &:focus {
-    outline: none;
-  }
-`;
-
-const ResultsInfo = styled.div`
-  text-align: center;
-  margin-top: 0.75rem;
-  font-size: 0.875rem;
-  color: #6b7280;
-`;
 
 const SearchBar = ({ 
   searchTerm, 
@@ -80,36 +12,38 @@ const SearchBar = ({
   };
 
   return (
-    <SearchContainer>
-      <SearchWrapper>
-        <SearchIcon>
+    <div className="w-full max-w-xl mx-auto mb-8">
+      <div className="relative flex items-center">
+        <div className="absolute left-4 text-gray-500 flex items-center pointer-events-none">
           <FiSearch size={20} />
-        </SearchIcon>
-        <SearchInput
+        </div>
+        <input
           type="text"
           value={searchTerm}
           onChange={(e) => onSearchChange(e.target.value)}
           placeholder={placeholder}
           aria-label="Buscar productos"
+          className="w-full py-3 pl-12 pr-12 border-2 border-gray-200 rounded-full text-base transition-all duration-300 focus:outline-none focus:border-brand-black focus:ring-2 focus:ring-brand-black/10 placeholder:text-gray-400"
         />
         {searchTerm && (
-          <ClearButton 
+          <button 
             onClick={handleClear}
             aria-label="Limpiar búsqueda"
+            className="absolute right-4 text-gray-500 hover:text-brand-black transition-colors p-1 focus:outline-none"
           >
             <FiX size={20} />
-          </ClearButton>
+          </button>
         )}
-      </SearchWrapper>
+      </div>
       {searchTerm && (
-        <ResultsInfo>
+        <p className="text-center mt-3 text-sm text-gray-500">
           {totalResults === 0 
             ? 'No se encontraron productos' 
             : `${totalResults} ${totalResults === 1 ? 'producto encontrado' : 'productos encontrados'}`
           }
-        </ResultsInfo>
+        </p>
       )}
-    </SearchContainer>
+    </div>
   );
 };
 

@@ -44,7 +44,10 @@
   - Gestión visual con confirmaciones
   - Integración con MockAPI para persistencia
 - **Diseño Profesional y Responsivo**:
-  - Estilizado con Tailwind CSS y Styled Components
+  - Estilizado exclusivamente con Tailwind CSS
+  - Sistema de diseño elegante con colores de marca personalizados
+  - Tipografía premium (Playfair Display + Inter)
+  - Animaciones y transiciones sofisticadas
   - Adaptable a móviles, tablets y escritorio
   - Optimización de imágenes con lazy loading
   - Componentes reutilizables y accesibles
@@ -68,9 +71,8 @@
 - **[React Router DOM 7.9](https://reactrouter.com/)** - Enrutamiento
 
 ### Estilos
-- **[Tailwind CSS 3.4](https://tailwindcss.com/)** - Framework de CSS utility-first
-- **[Bootstrap 5.3](https://getbootstrap.com/)** - Componentes y grid system
-- **[Styled Components 6.1](https://styled-components.com/)** - CSS-in-JS
+- **[Tailwind CSS 3.4](https://tailwindcss.com/)** - Framework de CSS utility-first con sistema de diseño personalizado
+- **[Google Fonts](https://fonts.google.com/)** - Tipografías Playfair Display + Inter
 
 ### UI/UX
 - **[React Icons 5.5](https://react-icons.github.io/)** - Iconografía

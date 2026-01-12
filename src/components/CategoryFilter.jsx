@@ -1,80 +1,90 @@
-import React from 'react';
-import { FiFilter } from 'react-icons/fi';
-import styled from 'styled-components';
-
-const FilterContainer = styled.div`
-  width: 100%;
-  max-width: 800px;
-  margin: 0 auto 2rem;
-`;
-
-const FilterHeader = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-  color: #374151;
-  font-weight: 600;
-`;
-
-const CategoryButtons = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  justify-content: center;
-`;
-
-const CategoryButton = styled.button`
-  padding: 0.5rem 1rem;
-  border: 2px solid ${props => props.$active ? '#000' : '#e5e7eb'};
-  background-color: ${props => props.$active ? '#000' : 'white'};
-  color: ${props => props.$active ? 'white' : '#374151'};
-  border-radius: 9999px;
-  font-weight: 500;
-  font-size: 0.875rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  
-  &:hover {
-    background-color: ${props => props.$active ? '#1f2937' : '#f3f4f6'};
-    border-color: ${props => props.$active ? '#1f2937' : '#d1d5db'};
-  }
-  
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
-  }
-`;
+import React, { useState } from 'react';
+import { FiChevronDown } from 'react-icons/fi';
 
 const CategoryFilter = ({ categories, selectedCategory, onCategoryChange }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
   if (!categories || categories.length === 0) return null;
 
   return (
-    <FilterContainer>
-      <FilterHeader>
-        <FiFilter size={18} />
-        <span>Filtrar por categoría</span>
-      </FilterHeader>
-      <CategoryButtons>
-        <CategoryButton
-          $active={selectedCategory === 'all'}
+    <div className="mb-8">
+      {/* Desktop Pills */}
+      <div className="hidden sm:flex flex-wrap gap-2 justify-center">
+        <button
           onClick={() => onCategoryChange('all')}
-          aria-label="Mostrar todas las categorías"
+          className={`px-5 py-2 text-sm font-medium tracking-wide transition-all duration-300 ${
+            selectedCategory === 'all'
+              ? 'bg-brand-black text-white'
+              : 'bg-transparent text-gray-600 hover:text-brand-black border border-gray-200 hover:border-brand-black'
+          }`}
         >
           Todos
-        </CategoryButton>
-        {categories.map(category => (
-          <CategoryButton
+        </button>
+        {categories.slice(0, 8).map(category => (
+          <button
             key={category}
-            $active={selectedCategory === category}
             onClick={() => onCategoryChange(category)}
-            aria-label={`Filtrar por ${category}`}
+            className={`px-5 py-2 text-sm font-medium tracking-wide capitalize transition-all duration-300 ${
+              selectedCategory === category
+                ? 'bg-brand-black text-white'
+                : 'bg-transparent text-gray-600 hover:text-brand-black border border-gray-200 hover:border-brand-black'
+            }`}
           >
             {category}
-          </CategoryButton>
+          </button>
         ))}
-      </CategoryButtons>
-    </FilterContainer>
+        
+        {/* Dropdown for more categories */}
+        {categories.length > 8 && (
+          <div className="relative">
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="px-5 py-2 text-sm font-medium tracking-wide bg-transparent text-gray-600 hover:text-brand-black border border-gray-200 hover:border-brand-black flex items-center gap-2 transition-all duration-300"
+            >
+              Más
+              <FiChevronDown className={`transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+            </button>
+            
+            {isOpen && (
+              <div className="absolute top-full left-0 mt-2 bg-white shadow-elegant border border-gray-100 py-2 min-w-[150px] z-20 animate-fade-in">
+                {categories.slice(8).map(category => (
+                  <button
+                    key={category}
+                    onClick={() => {
+                      onCategoryChange(category);
+                      setIsOpen(false);
+                    }}
+                    className={`block w-full px-4 py-2 text-left text-sm capitalize transition-colors ${
+                      selectedCategory === category
+                        ? 'bg-gray-50 text-brand-gold font-medium'
+                        : 'text-gray-600 hover:bg-gray-50 hover:text-brand-black'
+                    }`}
+                  >
+                    {category}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* Mobile Dropdown */}
+      <div className="sm:hidden">
+        <select
+          value={selectedCategory}
+          onChange={(e) => onCategoryChange(e.target.value)}
+          className="w-full px-4 py-3 border border-gray-200 text-sm focus:outline-none focus:border-brand-gold bg-white capitalize"
+        >
+          <option value="all">Todas las categorías</option>
+          {categories.map(category => (
+            <option key={category} value={category} className="capitalize">
+              {category}
+            </option>
+          ))}
+        </select>
+      </div>
+    </div>
   );
 };
 

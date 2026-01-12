@@ -109,17 +109,17 @@ const ProductForm = ({ onSuccess, initialData = null, isEdit = false }) => {
     }
   };
 
-  return (
-    <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md max-w-2xl mx-auto">
-      <h2 className="text-2xl font-bold mb-6">
-        {isEdit ? 'Editar Producto' : 'Agregar Nuevo Producto'}
-      </h2>
+  const inputBaseStyles = "w-full px-4 py-3 border transition-all duration-200 focus:outline-none focus:ring-2";
+  const inputNormalStyles = "border-gray-200 focus:border-brand-black focus:ring-brand-black/10";
+  const inputErrorStyles = "border-red-400 focus:border-red-400 focus:ring-red-400/10";
 
+  return (
+    <form onSubmit={handleSubmit} className="space-y-6">
       {/* Nombre del producto */}
-      <div className="mb-4">
-        <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
-          <FiTag className="inline mr-2" />
-          Nombre del Producto *
+      <div>
+        <label htmlFor="title" className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+          <FiTag size={16} className="text-brand-gold" />
+          Nombre del Producto <span className="text-red-400">*</span>
         </label>
         <input
           type="text"
@@ -131,19 +131,19 @@ const ProductForm = ({ onSuccess, initialData = null, isEdit = false }) => {
           aria-required="true"
           aria-invalid={errors.title ? "true" : "false"}
           aria-describedby={errors.title ? "title-error" : undefined}
-          className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 ${
-            errors.title ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-black'
-          }`}
+          className={`${inputBaseStyles} ${errors.title ? inputErrorStyles : inputNormalStyles}`}
           placeholder="Ej: Remera estampada"
         />
-        {errors.title && <p id="title-error" className="text-red-500 text-sm mt-1" role="alert">{errors.title}</p>}
+        {errors.title && (
+          <p id="title-error" className="text-red-500 text-sm mt-2" role="alert">{errors.title}</p>
+        )}
       </div>
 
       {/* Precio */}
-      <div className="mb-4">
-        <label htmlFor="price" className="block text-sm font-medium text-gray-700 mb-1">
-          <FiDollarSign className="inline mr-2" />
-          Precio *
+      <div>
+        <label htmlFor="price" className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+          <FiDollarSign size={16} className="text-brand-gold" />
+          Precio <span className="text-red-400">*</span>
         </label>
         <input
           type="number"
@@ -157,19 +157,20 @@ const ProductForm = ({ onSuccess, initialData = null, isEdit = false }) => {
           aria-required="true"
           aria-invalid={errors.price ? "true" : "false"}
           aria-describedby={errors.price ? "price-error" : undefined}
-          className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 ${
-            errors.price ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-black'
-          }`}
+          className={`${inputBaseStyles} ${errors.price ? inputErrorStyles : inputNormalStyles}`}
           placeholder="0.00"
         />
-        {errors.price && <p id="price-error" className="text-red-500 text-sm mt-1" role="alert">{errors.price}</p>}
+        {errors.price && (
+          <p id="price-error" className="text-red-500 text-sm mt-2" role="alert">{errors.price}</p>
+        )}
       </div>
 
       {/* Descripción */}
-      <div className="mb-4">
-        <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
-          <FiFileText className="inline mr-2" />
-          Descripción * (mínimo 10 caracteres)
+      <div>
+        <label htmlFor="description" className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+          <FiFileText size={16} className="text-brand-gold" />
+          Descripción <span className="text-red-400">*</span>
+          <span className="text-gray-400 text-xs font-normal">(mínimo 10 caracteres)</span>
         </label>
         <textarea
           id="description"
@@ -181,22 +182,22 @@ const ProductForm = ({ onSuccess, initialData = null, isEdit = false }) => {
           aria-required="true"
           aria-invalid={errors.description ? "true" : "false"}
           aria-describedby={errors.description ? "description-error" : "description-help"}
-          className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 ${
-            errors.description ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-black'
-          }`}
+          className={`${inputBaseStyles} resize-none ${errors.description ? inputErrorStyles : inputNormalStyles}`}
           placeholder="Describe el producto..."
         />
-        <p id="description-help" className="text-sm text-gray-500 mt-1">
+        <p id="description-help" className="text-xs text-gray-400 mt-2">
           {formData.description.length} caracteres
         </p>
-        {errors.description && <p id="description-error" className="text-red-500 text-sm mt-1" role="alert">{errors.description}</p>}
+        {errors.description && (
+          <p id="description-error" className="text-red-500 text-sm mt-1" role="alert">{errors.description}</p>
+        )}
       </div>
 
       {/* URL de imagen */}
-      <div className="mb-4">
-        <label htmlFor="image" className="block text-sm font-medium text-gray-700 mb-1">
-          <FiImage className="inline mr-2" />
-          URL de la Imagen *
+      <div>
+        <label htmlFor="image" className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+          <FiImage size={16} className="text-brand-gold" />
+          URL de la Imagen <span className="text-red-400">*</span>
         </label>
         <input
           type="url"
@@ -208,19 +209,29 @@ const ProductForm = ({ onSuccess, initialData = null, isEdit = false }) => {
           aria-required="true"
           aria-invalid={errors.image ? "true" : "false"}
           aria-describedby={errors.image ? "image-error" : undefined}
-          className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 ${
-            errors.image ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-black'
-          }`}
+          className={`${inputBaseStyles} ${errors.image ? inputErrorStyles : inputNormalStyles}`}
           placeholder="https://ejemplo.com/imagen.jpg"
         />
-        {errors.image && <p id="image-error" className="text-red-500 text-sm mt-1" role="alert">{errors.image}</p>}
+        {errors.image && (
+          <p id="image-error" className="text-red-500 text-sm mt-2" role="alert">{errors.image}</p>
+        )}
+        {formData.image && !errors.image && (
+          <div className="mt-3 p-2 bg-gray-50 border border-gray-100">
+            <img 
+              src={formData.image} 
+              alt="Vista previa" 
+              className="h-24 w-24 object-cover mx-auto"
+              onError={(e) => e.target.style.display = 'none'}
+            />
+          </div>
+        )}
       </div>
 
       {/* Categoría */}
-      <div className="mb-6">
-        <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-1">
-          <FiTag className="inline mr-2" />
-          Categoría *
+      <div>
+        <label htmlFor="category" className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
+          <FiTag size={16} className="text-brand-gold" />
+          Categoría <span className="text-red-400">*</span>
         </label>
         <select
           id="category"
@@ -231,9 +242,7 @@ const ProductForm = ({ onSuccess, initialData = null, isEdit = false }) => {
           aria-required="true"
           aria-invalid={errors.category ? "true" : "false"}
           aria-describedby={errors.category ? "category-error" : undefined}
-          className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 ${
-            errors.category ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-black'
-          }`}
+          className={`${inputBaseStyles} ${errors.category ? inputErrorStyles : inputNormalStyles}`}
         >
           <option value="">Selecciona una categoría</option>
           <option value="remeras">Remeras</option>
@@ -243,7 +252,9 @@ const ProductForm = ({ onSuccess, initialData = null, isEdit = false }) => {
           <option value="accesorios">Accesorios</option>
           <option value="calzado">Calzado</option>
         </select>
-        {errors.category && <p id="category-error" className="text-red-500 text-sm mt-1" role="alert">{errors.category}</p>}
+        {errors.category && (
+          <p id="category-error" className="text-red-500 text-sm mt-2" role="alert">{errors.category}</p>
+        )}
       </div>
 
       {/* Botón de envío */}
@@ -251,14 +262,19 @@ const ProductForm = ({ onSuccess, initialData = null, isEdit = false }) => {
         type="submit"
         disabled={loading}
         aria-label={loading ? 'Procesando...' : (isEdit ? 'Actualizar producto' : 'Crear producto')}
-        className={`w-full py-3 px-4 rounded-md font-bold text-white transition-colors flex items-center justify-center gap-2 ${
-          loading
-            ? 'bg-gray-400 cursor-not-allowed'
-            : 'bg-black hover:bg-gray-800'
-        }`}
+        className="w-full py-4 bg-brand-black text-white font-medium tracking-wide flex items-center justify-center gap-3 transition-all duration-200 hover:bg-brand-gold hover:text-brand-black disabled:bg-gray-300 disabled:cursor-not-allowed disabled:hover:bg-gray-300 disabled:hover:text-white"
       >
-        <FiSave size={20} />
-        {loading ? 'Procesando...' : (isEdit ? 'Actualizar Producto' : 'Crear Producto')}
+        {loading ? (
+          <>
+            <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+            Procesando...
+          </>
+        ) : (
+          <>
+            <FiSave size={18} />
+            {isEdit ? 'Actualizar Producto' : 'Crear Producto'}
+          </>
+        )}
       </button>
     </form>
   );
